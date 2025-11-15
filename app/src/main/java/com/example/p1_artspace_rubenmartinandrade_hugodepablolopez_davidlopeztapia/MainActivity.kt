@@ -40,6 +40,25 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.p1_artspace_rubenmartinandrade_hugodepablolopez_davidlopeztapia.ui.theme.P1_ArtSpace_RubenMartinAndrade_HugodePabloLopez_DavidLopezTapiaTheme
 
+
+//INICIO (David)
+//Modelo para cada obra
+data class Obra(
+    @StringRes val titulo: Int,
+    @StringRes val artista: Int,
+    @DrawableRes val imagen: Int
+)
+
+//Lista de obras
+val obras = listOf(
+    Obra(R.string.gunter_titulo, R.string.gunter_artista, R.drawable.gunter),
+    Obra(R.string.guardian_titulo, R.string.guardian_artista, R.drawable.guardian),
+    Obra(R.string.justicia_titulo, R.string.justicia_artista, R.drawable.justicia),
+    Obra(R.string.reyhielo_titulo, R.string.reyhielo_artista, R.drawable.reyhielo)
+)
+//FIN (David)
+
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,12 +79,11 @@ fun crearTitulo(@StringRes titulo: Int, modifier: Modifier = Modifier) {
         text = stringResource(titulo),
         fontSize = 30.sp,
         fontWeight = FontWeight.Bold,
-        color = Color.Black.copy(alpha = 1f), //100% de opacidad
+        color = Color.Black.copy(alpha = 1f),
         fontFamily = FontFamily.Cursive,
         modifier = modifier
     )
 }
-
 
 @Composable
 fun crearImagen(@DrawableRes imagen: Int, modifier: Modifier = Modifier) {
@@ -73,14 +91,12 @@ fun crearImagen(@DrawableRes imagen: Int, modifier: Modifier = Modifier) {
         modifier = modifier
             .border(width = 1.dp, color = Color.Gray)
             .shadow(elevation = 10.dp, shape = RoundedCornerShape(bottomEnd = 16.dp), clip = false),
-    )
-    {
+    ) {
         Box(
             modifier = Modifier
                 .height(500.dp)
                 .width(350.dp)
-        )
-        {
+        ) {
             Image(
                 painter = painterResource(imagen),
                 contentDescription = null,
@@ -94,18 +110,52 @@ fun crearImagen(@DrawableRes imagen: Int, modifier: Modifier = Modifier) {
 
 @Composable
 fun crearInterfaz(modifier: Modifier = Modifier) {
-    var titulo by remember { mutableStateOf(R.string.gunter_Titulo) }
-    var imagen by remember { mutableStateOf(R.drawable.gunter) }
+
+    //INICIO (David)
+    var index by remember { mutableStateOf(0) }
+    val obraActual = obras[index]
+    //FIN (David)
+
     Box(
         modifier = Modifier.fillMaxSize(),
-    )
-    {
+    ) {
+        // Título
         crearTitulo(
-            titulo, Modifier
+            obraActual.titulo,
+            Modifier
                 .align(Alignment.TopCenter)
                 .padding(top = 40.dp)
         )
-        crearImagen(imagen, Modifier.align(Alignment.Center))
+
+        // Imagen
+        crearImagen(
+            obraActual.imagen,
+            Modifier.align(Alignment.Center)
+        )
+
+        //INICIO (David)
+        //Texto del artista
+        Text(
+            text = stringResource(obraActual.artista),
+            fontSize = 20.sp,
+            fontWeight = FontWeight.Bold,
+            fontFamily = FontFamily.Cursive,
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(bottom = 130.dp)
+        )
+
+        //Texto del contador
+        Text(
+            text = "Imagen ${index + 1}/${obras.size}",
+            fontSize = 22.sp,
+            fontWeight = FontWeight.Bold,
+            fontFamily = FontFamily.Cursive,
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(bottom = 90.dp)
+        )
+        //FIN (David)
     }
 }
 
