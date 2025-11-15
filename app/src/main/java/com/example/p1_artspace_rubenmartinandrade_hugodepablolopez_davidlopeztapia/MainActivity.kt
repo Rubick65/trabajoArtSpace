@@ -11,13 +11,11 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -94,9 +92,9 @@ fun crearImagen(@DrawableRes imagen: Int, modifier: Modifier = Modifier) {
     ) {
         Box(
             modifier = Modifier
-                .height(500.dp)
-                .width(350.dp)
-        ) {
+                .size(width = 350.dp, height = 500.dp)
+        )
+        {
             Image(
                 painter = painterResource(imagen),
                 contentDescription = null,
@@ -133,32 +131,50 @@ fun crearInterfaz(modifier: Modifier = Modifier) {
             Modifier.align(Alignment.Center)
         )
 
-        //INICIO (David)
-        //Texto del artista
-        Text(
-            text = stringResource(obraActual.artista),
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Bold,
-            fontFamily = FontFamily.Cursive,
+        //INICIO_2 (David)
+        info_obra(
+            obra = obraActual,
+            index = index,
             modifier = Modifier
                 .align(Alignment.BottomCenter)
-                .padding(bottom = 130.dp)
+                .padding(bottom = 40.dp) // separación del borde inferior
         )
-
-        //Texto del contador
-        Text(
-            text = "Imagen ${index + 1}/${obras.size}",
-            fontSize = 22.sp,
-            fontWeight = FontWeight.Bold,
-            fontFamily = FontFamily.Cursive,
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .padding(bottom = 90.dp)
-        )
-        //FIN (David)
+        //FIN_2 (David)
     }
 }
 
+//INICIO_2 (David)
+@Composable
+fun info_obra(obra: Obra, index: Int, modifier: Modifier = Modifier) {
+    Surface(
+        color = Color(0xFFF5F5F5), // gris clarito casi blanco
+        shape = RoundedCornerShape(12.dp),
+        shadowElevation = 4.dp,
+        modifier = modifier
+            .padding(horizontal = 16.dp)
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .padding(12.dp)
+        ) {
+            Text(
+                text = stringResource(obra.artista),
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+                fontFamily = FontFamily.Cursive
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = "Imagen ${index + 1}/${obras.size}",
+                fontSize = 22.sp,
+                fontWeight = FontWeight.Bold,
+                fontFamily = FontFamily.Cursive
+            )
+        }
+    }
+}
+//FIN_2 (David)
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
