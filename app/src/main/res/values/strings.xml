@@ -2,18 +2,18 @@
     <string name="app_name">P1_ArtSpace_RubenMartinAndrade_HugodePabloLopez_DavidLopezTapia</string>
 
     <!-- Gunter -->
-    <string name="gunter_titulo">Rey</string>
-    <string name="gunter_artista">Artista de Rey (Año)</string>
+    <string name="gunter_titulo">El Rey Gunter</string>
+    <string name="gunter_artista">Leonardo da Vinci (1504)</string>
 
     <!-- Guardian -->
-    <string name="guardian_titulo">Guardían</string>
-    <string name="guardian_artista">Artista del Guardián (Año)</string>
+    <string name="guardian_titulo">El Guardián Robochicle</string>
+    <string name="guardian_artista">Rafael Sanzio (1498)</string>
 
     <!-- Justicia -->
-    <string name="justicia_titulo">Justicia</string>
-    <string name="justicia_artista">Artista de Justicia (Año)</string>
+    <string name="justicia_titulo">Fin el Humano</string>
+    <string name="justicia_artista">Michelangelo di Lodovico (1555)</string>
 
     <!-- Rey Hielo -->
-    <string name="reyhielo_titulo">Rey de Hielo</string>
-    <string name="reyhielo_artista">Artista del Rey de Hielo (Año)</string>
+    <string name="reyhielo_titulo">Rey Hielo</string>
+    <string name="reyhielo_artista">Donatello di Niccolò (1425)</string>
 </resources>
