@@ -2,8 +2,8 @@
     <string name="app_name">P1_ArtSpace_RubenMartinAndrade_HugodePabloLopez_DavidLopezTapia</string>
 
     <!-- Gunter -->
-    <string name="gunter_titulo">GUNTER THE KING</string>
-    <string name="gunter_artista">Artista de Gunter (Año)</string>
+    <string name="gunter_titulo">Rey</string>
+    <string name="gunter_artista">Artista de Rey (Año)</string>
 
     <!-- Guardian -->
     <string name="guardian_titulo">Guardían</string>

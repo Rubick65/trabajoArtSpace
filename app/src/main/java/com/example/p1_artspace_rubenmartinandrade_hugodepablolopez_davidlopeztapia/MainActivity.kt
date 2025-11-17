@@ -1,5 +1,6 @@
 package com.example.p1_artspace_rubenmartinandrade_hugodepablolopez_davidlopeztapia
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -131,6 +132,7 @@ fun CrearImagen(
     }
 }
 
+@SuppressLint("UnusedBoxWithConstraintsScope")
 @Composable
 fun CrearInterfaz(modifier: Modifier = Modifier) {
 
@@ -139,13 +141,10 @@ fun CrearInterfaz(modifier: Modifier = Modifier) {
     val obraActual = obras[index]
     //FIN (David)
 
-    BoxWithConstraints(
+    BoxWithConstraints (
         modifier = Modifier.fillMaxSize(),
     ) {
-
         val ancho = maxWidth
-
-
         // En función del ancho de la pantalla cambiamos el tamaño de los textos
         val textSizeTitulo = when {
             ancho < 600.dp -> 40
@@ -155,7 +154,7 @@ fun CrearInterfaz(modifier: Modifier = Modifier) {
 
         // Parámetros de la imagen
         val imagenParams = when {
-            ancho < 400.dp -> ImagenParams(200, 350, 400, 100)
+            ancho < 400.dp -> ImagenParams(350, 500, 400, 100)
             ancho < 600.dp -> ImagenParams(350, 500, 400, 100)
             ancho < 840.dp -> ImagenParams(620, 800, 700, 200)
             else -> ImagenParams(300, 450, 350, 100)
@@ -206,11 +205,7 @@ fun CrearInterfaz(modifier: Modifier = Modifier) {
                 index = if (index > 0) index - 1 else 3
             }
         )
-
-
     }
-
-
     //FIN_2 (David)
 }
 
