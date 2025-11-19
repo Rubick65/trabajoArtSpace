@@ -16,4 +16,8 @@
     <!-- Rey Hielo -->
     <string name="reyhielo_titulo">Rey Hielo</string>
     <string name="reyhielo_artista">Donatello di Niccolò (1425)</string>
+
+    <!-- Texto botones -->
+    <string name="previouse">Previouse</string>
+    <string name="next">Next</string>
 </resources>

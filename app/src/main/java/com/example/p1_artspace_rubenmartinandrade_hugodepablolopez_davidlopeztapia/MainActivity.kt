@@ -1,3 +1,5 @@
+//Creado por Hugo de Pabló, Ruben Martín, David López
+
 package com.example.p1_artspace_rubenmartinandrade_hugodepablolopez_davidlopeztapia
 
 import android.annotation.SuppressLint
@@ -45,7 +47,6 @@ import androidx.compose.ui.unit.sp
 import com.example.p1_artspace_rubenmartinandrade_hugodepablolopez_davidlopeztapia.ui.theme.P1_ArtSpace_RubenMartinAndrade_HugodePabloLopez_DavidLopezTapiaTheme
 
 
-//INICIO (David)
 //Modelo para cada obra
 data class Obra(
     @StringRes val titulo: Int, @StringRes val artista: Int, @DrawableRes val imagen: Int
@@ -58,7 +59,6 @@ val obras = listOf(
     Obra(R.string.justicia_titulo, R.string.justicia_artista, R.drawable.justicia),
     Obra(R.string.reyhielo_titulo, R.string.reyhielo_artista, R.drawable.reyhielo)
 )
-//FIN (David)
 
 
 class MainActivity : ComponentActivity() {
@@ -91,6 +91,9 @@ data class InfoParams(
     val buttonHeight: Int
 )
 
+/**
+ * Creacion de titulo
+ */
 @Composable
 fun CrearTitulo(@StringRes titulo: Int, modifier: Modifier = Modifier, textSize: Int) {
     Text(
@@ -103,6 +106,9 @@ fun CrearTitulo(@StringRes titulo: Int, modifier: Modifier = Modifier, textSize:
     )
 }
 
+/**
+ * Creacion de imagen
+ */
 @Composable
 fun CrearImagen(
     @DrawableRes imagen: Int,
@@ -132,14 +138,15 @@ fun CrearImagen(
     }
 }
 
+/**
+ * Creacion de la interfaz
+ */
 @SuppressLint("UnusedBoxWithConstraintsScope")
 @Composable
 fun CrearInterfaz(modifier: Modifier = Modifier) {
 
-    //INICIO (David)
     var index by remember { mutableStateOf(0) }
     val obraActual = obras[index]
-    //FIN (David)
 
     BoxWithConstraints (
         modifier = Modifier.fillMaxSize(),
@@ -166,8 +173,6 @@ fun CrearInterfaz(modifier: Modifier = Modifier) {
             ancho < 840.dp -> InfoParams(380, 180, 30, 32, 200, 60)
             else -> InfoParams(280, 110, 20, 22, 150, 45)
         }
-
-
 
         CrearTitulo(
             obraActual.titulo,
@@ -206,11 +211,12 @@ fun CrearInterfaz(modifier: Modifier = Modifier) {
             }
         )
     }
-    //FIN_2 (David)
 }
 
 
-//INICIO_2 (David)
+/**
+ * Creacion de la informacion de la obra actual
+ */
 @Composable
 fun InfoObra(
     obra: Obra,
@@ -260,6 +266,7 @@ fun InfoObra(
             }
         }
         Spacer(modifier = Modifier.height(20.dp))
+        //Creacion de los botones con sus funciones
         CrearBotones(
             texSize = texSize1,
             buttonHeight = buttonHeight,
@@ -267,14 +274,12 @@ fun InfoObra(
             onClickNext = onClickNext,
             onClickPrevious = onClickPrevious
         )
-
-
     }
-
 }
-//FIN_2 (David)
 
-// INICIO (Rubén)
+/**
+ * Creacion de los botones con sus funciones
+ */
 @Composable
 fun CrearBotones(
     modifier: Modifier = Modifier,
@@ -294,11 +299,9 @@ fun CrearBotones(
                 .align(Alignment.CenterStart), onClick = onClickPrevious
         ) {
             Text(
-                text = "Previouse", fontSize = texSize.sp
+                text = stringResource(R.string.previouse), fontSize = texSize.sp
             )
-
         }
-
         Button(
             modifier = Modifier
                 .padding(end = 30.dp)
@@ -307,13 +310,11 @@ fun CrearBotones(
                 .align(Alignment.BottomEnd), onClick = onClickNext
         ) {
             Text(
-                text = "Next", fontSize = texSize.sp
+                text = stringResource(R.string.next), fontSize = texSize.sp
 
             )
-
         }
     }
-
 }
 
 
