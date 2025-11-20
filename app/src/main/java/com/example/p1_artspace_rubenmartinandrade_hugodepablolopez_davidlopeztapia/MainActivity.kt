@@ -11,6 +11,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
+import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -22,7 +23,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -36,6 +39,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
@@ -47,6 +51,7 @@ import androidx.compose.ui.unit.sp
 import com.example.p1_artspace_rubenmartinandrade_hugodepablolopez_davidlopeztapia.ui.theme.P1_ArtSpace_RubenMartinAndrade_HugodePabloLopez_DavidLopezTapiaTheme
 
 
+//INICIO (David)
 //Modelo para cada obra
 data class Obra(
     @StringRes val titulo: Int, @StringRes val artista: Int, @DrawableRes val imagen: Int
@@ -59,6 +64,7 @@ val obras = listOf(
     Obra(R.string.justicia_titulo, R.string.justicia_artista, R.drawable.justicia),
     Obra(R.string.reyhielo_titulo, R.string.reyhielo_artista, R.drawable.reyhielo)
 )
+//FIN (David)
 
 
 class MainActivity : ComponentActivity() {
@@ -116,13 +122,52 @@ fun CrearImagen(
     boxWidth: Int,
     boxHeight: Int,
     imageSize: Int,
-    imagePadding: Int
+    imagePadding: Int,
+    onDragNext: () -> Unit,
+    onDragPrevious: () -> Unit
 ) {
     Surface(
         modifier = modifier
             .padding(bottom = imagePadding.dp)
             .border(width = 1.dp, color = Color.Gray)
-            .shadow(elevation = 10.dp, shape = RoundedCornerShape(bottomEnd = 16.dp), clip = false),
+            .shadow(elevation = 10.dp, shape = RoundedCornerShape(bottomEnd = 16.dp), clip = false)
+            .pointerInput(Unit) {
+                var desplazamiento = 0f
+                var directionLocked: Int? = null   // -1 = izquierda, +1 = derecha
+                val threshold = 30f               // sensibilidad del gesto
+
+                detectDragGestures(
+                    onDrag = { change, dragAmount ->
+                        change.consume()
+
+                        // Acumulas el desplazamiento total
+                        desplazamiento += dragAmount.x
+
+                        // Si aún no hemos decidido dirección…
+                        if (directionLocked == null) {
+                            when {
+                                desplazamiento > threshold -> directionLocked = 1   // derecha
+                                desplazamiento < -threshold -> directionLocked = -1 // izquierda
+                            }
+                        }
+                    },
+                    onDragEnd = {
+                        when (directionLocked) {
+                            1 -> onDragNext()
+                            -1 -> onDragPrevious()
+                        }
+
+                        // Reset
+                        desplazamiento = 0f
+                        directionLocked = null
+                    },
+                    onDragCancel = {
+                        desplazamiento = 0f
+                        directionLocked = null
+                    }
+                )
+            }
+
     ) {
         Box(
             modifier = Modifier.size(width = boxWidth.dp, height = boxHeight.dp)
@@ -145,11 +190,14 @@ fun CrearImagen(
 @Composable
 fun CrearInterfaz(modifier: Modifier = Modifier) {
 
+    //INICIO (David)
     var index by remember { mutableStateOf(0) }
     val obraActual = obras[index]
+    //FIN (David)
 
-    BoxWithConstraints (
-        modifier = Modifier.fillMaxSize(),
+    BoxWithConstraints(
+        modifier = Modifier.fillMaxSize()
+            .verticalScroll(rememberScrollState()),
     ) {
         val ancho = maxWidth
         // En función del ancho de la pantalla cambiamos el tamaño de los textos
@@ -169,10 +217,12 @@ fun CrearInterfaz(modifier: Modifier = Modifier) {
 
         // Parámetros de la información de la obra
         val infoParams = when {
-            ancho < 600.dp -> InfoParams(280, 110, 20, 22, 150, 40)
+            ancho < 600.dp -> InfoParams(260, 100, 18, 16, 150, 40)
             ancho < 840.dp -> InfoParams(380, 180, 30, 32, 200, 60)
             else -> InfoParams(280, 110, 20, 22, 150, 45)
         }
+
+
 
         CrearTitulo(
             obraActual.titulo,
@@ -188,7 +238,9 @@ fun CrearInterfaz(modifier: Modifier = Modifier) {
             boxWidth = imagenParams.boxWidth,
             boxHeight = imagenParams.boxHeight,
             imageSize = imagenParams.imageSize,
-            imagePadding = imagenParams.imagePadding
+            imagePadding = imagenParams.imagePadding,
+            onDragNext = { index = if (index < 3) index + 1 else 0 },
+            onDragPrevious = { index = if (index > 0) index - 1 else 3 }
         )
 
         InfoObra(
@@ -211,6 +263,7 @@ fun CrearInterfaz(modifier: Modifier = Modifier) {
             }
         )
     }
+    //FIN_2 (David)
 }
 
 
@@ -274,8 +327,12 @@ fun InfoObra(
             onClickNext = onClickNext,
             onClickPrevious = onClickPrevious
         )
+
+
     }
+
 }
+//FIN_2 (David)
 
 /**
  * Creacion de los botones con sus funciones
@@ -301,7 +358,9 @@ fun CrearBotones(
             Text(
                 text = stringResource(R.string.previouse), fontSize = texSize.sp
             )
+
         }
+
         Button(
             modifier = Modifier
                 .padding(end = 30.dp)
@@ -313,8 +372,10 @@ fun CrearBotones(
                 text = stringResource(R.string.next), fontSize = texSize.sp
 
             )
+
         }
     }
+
 }
 
 
